@@ -6,11 +6,12 @@ public class Enemy : MonoBehaviour
 {
     public int health;
     public bool dead;
+    Animator anim;
     //GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -18,10 +19,9 @@ public class Enemy : MonoBehaviour
     {
         if(health == 0)
         {
-            gameObject.GetComponent<Animator>().SetTrigger("DeathTrigger");
-            //Destroy(gameObject, 3f);
+            anim.SetTrigger("DeathTrigger");
+            Invoke("DisableEnemy", 2f);
             dead = true;
-            Invoke("DisableEnemy", 3f);
         }
     }
     private void OnCollisionEnter(Collision collision)

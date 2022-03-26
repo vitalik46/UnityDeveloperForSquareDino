@@ -1,29 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityStandardAssets.Characters.ThirdPerson;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController2 : MonoBehaviour
 {
-    GameManager gameManager;
-    
-
-    public NavMeshAgent agent;
-    public ThirdPersonCharacter character;
+    public UnityEngine.AI.NavMeshAgent agent;
+    //public ThirdPersonCharacter character;
 
     public GameObject bulletPrefab;
     public Transform spawner;
 
+    Quaternion rotation;
+    Vector3 direction;
+    bool startGame;
     public float speedRotation;
     RaycastHit m_HitInfo = new RaycastHit();
     RaycastHit m_HitInfo2 = new RaycastHit();
+    //[SerializeField] float force;
     public float angleInDegrees;
     float g = Physics.gravity.y;
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        agent.updateRotation = false;
     }
 
     // Update is called once per frame
@@ -31,34 +30,40 @@ public class PlayerController : MonoBehaviour
     {
         spawner.localEulerAngles = new Vector3(-angleInDegrees, 0f, 0f);
 
-
-        if (gameManager.startGame)
+        /*
+        if (agent.remainingDistance > agent.stoppingDistance)
         {
-            if (agent.remainingDistance > agent.stoppingDistance)
+            character.Move(agent.desiredVelocity, false, false);
+        }
+        else
+        {
+            character.Move(Vector3.zero, false, false);
+        }
+        */
+        if (Input.GetMouseButtonDown(0))
+        {
+            //startGame = true;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray.origin, ray.direction, out m_HitInfo))
             {
-                character.Move(agent.desiredVelocity, false, false);
-            }
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray.origin, ray.direction, out m_HitInfo))
-                    {
-                        if (m_HitInfo.transform.tag != "Player")
-                        {
-                            m_HitInfo2 = m_HitInfo;
-                            Shot(m_HitInfo2);
-                        }
-
-                    }
-                }
-                character.Move(Vector3.zero, false, false);
+                m_HitInfo2 = m_HitInfo;
+                Shot(m_HitInfo2);
             }
         }
-            
+        /*
+        if (startGame)
+        {
+            direction = m_HitInfo2.point - transform.position;
+            rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, speedRotation * Time.deltaTime);
 
-        
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Shot(m_HitInfo2);
+            }
+        }
+        */
     }
     void Shot(RaycastHit hit)
     {

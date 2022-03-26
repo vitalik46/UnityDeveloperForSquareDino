@@ -5,13 +5,12 @@ using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
-    
+    public GameObject startBackground;
     public GameObject[] wayPoints;
     GameObject player;
     [SerializeField]int currentWayPoint = 0;
     NavMeshAgent agent;
-    //WayPoint wp;
-    [SerializeField] bool startGame;
+    public bool startGame;
     Animator animatorPlayer;
     
     // Start is called before the first frame update
@@ -27,26 +26,14 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.Space) || Input.touchCount > 0)
+        if (Input.GetKey(KeyCode.Space) || Input.touchCount > 0 || Input.GetMouseButtonDown(0))
         {
+            startBackground.SetActive(false);
             startGame = true;
             currentWayPoint = 1;
             
             agent.destination = wayPoints[currentWayPoint].transform.position;
-            //animatorPlayer.SetTrigger("Run");
-            //agent.SetDestination(wayPoints[currentWayPoint].transform.position);
-            /*
-            if (Vector3.Distance(player.transform.position, wayPoints[currentWayPoint].transform.position) > 0)
-            {
-                agent.SetDestination(wayPoints[currentWayPoint].transform.position);
-                animatorPlayer.SetBool("Run", true);
-            }
-            else
-            {
-                animatorPlayer.SetBool("Run", false);
-            }
-            */
-            //if(Vector3.MoveTowards(agent.transform.position, wayPoints[currentWayPoint].transform.position)) > 0)
+            
         }
 
         if (startGame)
@@ -60,20 +47,9 @@ public class GameManager : MonoBehaviour
             if (wayPoints[currentWayPoint].GetComponent<WayPoint>().wayPoint—ompleted)
             {
                 currentWayPoint++;
-                //agent.destination = wayPoints[currentWayPoint].transform.position;
-                
-                
-                    agent.SetDestination(wayPoints[currentWayPoint].transform.position);
-                
-                
-                
+                agent.SetDestination(wayPoints[currentWayPoint].transform.position);
+ 
             }
-
         }
-       
-
-
     }
-    
-    
 }

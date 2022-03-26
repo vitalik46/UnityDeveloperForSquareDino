@@ -13,7 +13,8 @@ public class WayPoint : MonoBehaviour
     {
         foreach(GameObject enemy in enemies)
         {
-            if(!enemy.GetComponent<Enemy>().dead)
+            if(enemy.activeSelf)
+            //if(!enemy.GetComponent<Enemy>().dead)
             {
                 wayPoint—ompleted = false;
                 break;
