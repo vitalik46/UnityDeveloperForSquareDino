@@ -5,10 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int health;
-    public bool dead;
     Animator anim;
-    //GameManager gameManager;
-    // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -21,7 +18,6 @@ public class Enemy : MonoBehaviour
         {
             anim.SetTrigger("DeathTrigger");
             Invoke("DisableEnemy", 2f);
-            dead = true;
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -30,7 +26,6 @@ public class Enemy : MonoBehaviour
         {
             health--;
         }
-        
     }
     
     void DisableEnemy()

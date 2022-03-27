@@ -5,13 +5,13 @@ using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject startBackground;
-    public GameObject[] wayPoints;
+    [SerializeField] float distance = 0.5f;
+    [SerializeField] GameObject startBackground;
+    [SerializeField] GameObject[] wayPoints;
     GameObject player;
     [SerializeField]int currentWayPoint = 0;
     NavMeshAgent agent;
     public bool startGame;
-    Animator animatorPlayer;
     
     // Start is called before the first frame update
     void Start()
@@ -19,23 +19,24 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         agent = player.GetComponent<NavMeshAgent>();
         player.transform.position = wayPoints[currentWayPoint].transform.position;
-        animatorPlayer = player.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.Space) || Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+        
+        if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
         {
             startBackground.SetActive(false);
-            startGame = true;
             currentWayPoint = 1;
-            
-            agent.destination = wayPoints[currentWayPoint].transform.position;
-            
-        }
+            agent.SetDestination(wayPoints[currentWayPoint].transform.position);
 
+            if(Vector3.Distance(agent.transform.position, wayPoints[currentWayPoint].transform.position) < distance)
+            {
+                startGame = true;
+            }
+        }
+        
         if (startGame)
         {
 
@@ -52,4 +53,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+   
+
 }

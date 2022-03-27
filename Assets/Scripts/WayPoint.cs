@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WayPoint : MonoBehaviour
 {
-    //[SerializeField] GameObject[] enemies;
     [SerializeField] List<GameObject> enemies;
     public bool wayPoint—ompleted;
 
@@ -14,7 +13,6 @@ public class WayPoint : MonoBehaviour
         foreach(GameObject enemy in enemies)
         {
             if(enemy.activeSelf)
-            //if(!enemy.GetComponent<Enemy>().dead)
             {
                 wayPoint—ompleted = false;
                 break;
